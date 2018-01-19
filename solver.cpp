@@ -23,29 +23,29 @@ using namespace std;
 
 //----------------------------------------------------------------------
 
-typedef vector<int> vi;
+typedef vector<int> cubestate;
 
 //----------------------------------------------------------------------
 
-int applicableMoves[] = { 0, 262143, 259263, 74943, 74898 };
+int applicableMoves[] = {0, 262143, 259263, 74943, 74898};
 
 // TODO: Encode as strings, e.g. for U use "ABCDABCD"
 
 int affectedCubies[][8] = {
-    { 0, 1, 2, 3, 0, 1, 2, 3 }, // U
-    { 4, 7, 6, 5, 4, 5, 6, 7 }, // D
-    { 0, 9, 4, 8, 0, 3, 5, 4 }, // F
+    { 0, 1, 2, 3, 0, 1, 2, 3 },   // U
+    { 4, 7, 6, 5, 4, 5, 6, 7 },   // D
+    { 0, 9, 4, 8, 0, 3, 5, 4 },   // F
     { 2, 10, 6, 11, 2, 1, 7, 6 }, // B
-    { 3, 11, 7, 9, 3, 2, 6, 5 }, // L
-    { 1, 8, 5, 10, 1, 0, 4, 7 }, // R
+    { 3, 11, 7, 9, 3, 2, 6, 5 },  // L
+    { 1, 8, 5, 10, 1, 0, 4, 7 },  // R
 };
 
-vi applyMove(int move, vi state)
+cubestate applyMove(int move, cubestate state)
 {
     int turns = move % 3 + 1;
     int face = move / 3;
     while (turns--) {
-        vi oldState = state;
+        cubestate oldState = state;
         for (int i = 0; i < 8; i++) {
             int isCorner = i > 3;
             int target = affectedCubies[face][i] + isCorner * 12;
@@ -71,16 +71,16 @@ int phase;
 
 //----------------------------------------------------------------------
 
-vi id(vi state)
+cubestate id(cubestate state)
 {
 
     //--- Phase 1: Edge orientations.
     if (phase < 2)
-        return vi(state.begin() + 20, state.begin() + 32);
+        return cubestate(state.begin() + 20, state.begin() + 32);
 
     //-- Phase 2: Corner orientations, E slice edges.
     if (phase < 3) {
-        vi result(state.begin() + 31, state.begin() + 40);
+        cubestate result(state.begin() + 31, state.begin() + 40);
         for (int e = 0; e < 12; e++)
             result[0] |= (state[e] / 8) << e;
         return result;
@@ -88,7 +88,7 @@ vi id(vi state)
 
     //--- Phase 3: Edge slices M and S, corner tetrads, overall parity.
     if (phase < 4) {
-        vi result(3);
+        cubestate result(3);
         for (int e = 0; e < 12; e++)
             result[0] |= ((state[e] > 7) ? 2 : (state[e] & 1)) << (2 * e);
         for (int c = 0; c < 8; c++)
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
         "UFR", "URB", "UBL", "ULF", "DRF", "DFL", "DLB", "DBR" };
 
     //--- Prepare current (start) and goal state.
-    vi currentState(40), goalState(40);
+    cubestate currentState(40), goalState(40);
     for (int i = 0; i < 20; i++) {
 
         //--- Goal state.
@@ -131,18 +131,18 @@ int main(int argc, char** argv)
     while (++phase < 5) {
 
         //--- Compute ids for current and goal state, skip phase if equal.
-        vi currentId = id(currentState), goalId = id(goalState);
+        cubestate currentId = id(currentState), goalId = id(goalState);
         if (currentId == goalId)
             continue;
 
         //--- Initialize the BFS queue.
-        queue<vi> q;
+        queue<cubestate> q;
         q.push(currentState);
         q.push(goalState);
 
         //--- Initialize the BFS tables.
-        map<vi, vi> predecessor;
-        map<vi, int> direction, lastMove;
+        map<cubestate, cubestate> predecessor;
+        map<cubestate, int> direction, lastMove;
         direction[currentId] = 1;
         direction[goalId] = 2;
 
@@ -150,9 +150,9 @@ int main(int argc, char** argv)
         while (1) {
 
             //--- Get state from queue, compute its ID and get its direction.
-            vi oldState = q.front();
+            cubestate oldState = q.front();
             q.pop();
-            vi oldId = id(oldState);
+            cubestate oldId = id(oldState);
             int& oldDir = direction[oldId];
 
             //--- Apply all applicable moves to it and handle the new state.
@@ -160,8 +160,8 @@ int main(int argc, char** argv)
                 if (applicableMoves[phase] & (1 << move)) {
 
                     //--- Apply the move.
-                    vi newState = applyMove(move, oldState);
-                    vi newId = id(newState);
+                    cubestate newState = applyMove(move, oldState);
+                    cubestate newId = id(newState);
                     int& newDir = direction[newId];
 
                     //--- Have we seen this state (id) from the other direction already?
@@ -175,7 +175,7 @@ int main(int argc, char** argv)
                         }
 
                         //--- Reconstruct the connecting algorithm.
-                        vi algorithm(1, move);
+                        cubestate algorithm(1, move);
                         while (oldId != currentId) {
                             algorithm.insert(algorithm.begin(), lastMove[oldId]);
                             oldId = predecessor[oldId];
@@ -192,7 +192,7 @@ int main(int argc, char** argv)
                         }
 
                         //--- Jump to the next phase.
-                        goto nextPhasePlease;
+                        goto nextPhase;
                     }
 
                     //--- If we've never seen this state (id) before, visit it.
@@ -205,6 +205,6 @@ int main(int argc, char** argv)
                 }
             }
         }
-    nextPhasePlease:;
+    nextPhase:;
     }
 }
