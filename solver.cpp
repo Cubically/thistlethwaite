@@ -21,15 +21,9 @@
 #include <algorithm>
 using namespace std;
 
-//----------------------------------------------------------------------
-
 typedef vector<int> cubestate;
 
-//----------------------------------------------------------------------
-
 int applicableMoves[] = {0, 262143, 259263, 74943, 74898};
-
-// TODO: Encode as strings, e.g. for U use "ABCDABCD"
 
 int affectedCubies[][8] = {
     { 0, 1, 2, 3, 0, 1, 2, 3 },   // U
@@ -44,15 +38,19 @@ cubestate applyMove(int move, cubestate state)
 {
     int turns = move % 3 + 1;
     int face = move / 3;
+
     while (turns--) {
         cubestate oldState = state;
+
         for (int i = 0; i < 8; i++) {
             int isCorner = i > 3;
             int target = affectedCubies[face][i] + isCorner * 12;
             int killer = affectedCubies[face][(i & 3) == 3 ? i - 3 : i + 1] + isCorner * 12;
             int orientationDelta = (i < 4) ? (face > 1 && face < 4) : (face < 2) ? 0 : 2 - (i & 1);
+
             state[target] = oldState[killer];
             state[target + 20] = oldState[killer + 20] + orientationDelta;
+
             if (!turns)
                 state[target + 20] %= 2 + isCorner;
         }
@@ -65,11 +63,7 @@ int inverse(int move)
     return move + 2 - 2 * (move % 3);
 }
 
-//----------------------------------------------------------------------
-
 int phase;
-
-//----------------------------------------------------------------------
 
 cubestate id(cubestate state)
 {
@@ -103,7 +97,6 @@ cubestate id(cubestate state)
     return state;
 }
 
-//----------------------------------------------------------------------
 
 int main(int argc, char** argv)
 {
