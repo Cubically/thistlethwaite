@@ -1,7 +1,8 @@
-# solver 2
-A better cube solver.
+# Thistlethwaite
 
- - Optimal; usually solves in less than 20 moves
+This is a cube solver based off of [Thistlethwaite's algorithm](https://en.wikipedia.org/wiki/Optimal_solutions_for_Rubik%27s_Cube#Thistlethwaite's_algorithm). Features:
+
+ - Optimal; typically solves in around 20 moves
  - Efficient; usually finishes in under 10 seconds
  - Small; the source code is under 10KB
  - Independent; uses no heuristics tables
