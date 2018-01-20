@@ -1,14 +1,16 @@
-The output will represent a Rubik's Cube, formatted how solutions to [this challenge][2] take input. This format is a bit confusing, so here's a way to visualize it. This is the solved cube:
+The input is a somewhat confusing representation of a Rubik's Cube, so here's a way to visualize it. This is the solved cube:
 
 [![solved visualization][1]][1]
 
-That renders the output `UF UR UB UL DF DR DB DL FR FL BR BL UFR URB UBL ULF DRF DFL DLB DBR`.
+That renders the input `UF UR UB UL DF DR DB DL FR FL BR BL UFR URB UBL ULF DRF DFL DLB DBR`.
+
+The way the input works is by using the template of the solved cube. If `DF` was in the place of `UF`, then the orange-white edge would be in the place of the red-white edge.
 
 If we were to swap, for example, the red-white edge and the red-blue edge, the visualization would look like this (with no changes to the hidden faces):
 
 [![swapped visualization][2]][2]
 
-That renders the output `UR UF UB UL DF DR DB DL FR FL BR BL UFR URB UBL ULF DRF DFL DLB DBR` (which, btw, is an impossible cube state). Note that the order of the letters in cubies matter:
+That renders the input `UR UF UB UL DF DR DB DL FR FL BR BL UFR URB UBL ULF DRF DFL DLB DBR` (which, btw, is an impossible cube state). Note that the order of the letters in cubies matter:
 
     Above: UR UF UB UL DF DR DB DL FR FL BR BL UFR URB UBL ULF DRF DFL DLB DBR
     Below: RU FU UB UL DF DR DB DL FR FL BR BL UFR URB UBL ULF DRF DFL DLB DBR
