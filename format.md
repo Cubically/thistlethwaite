@@ -19,7 +19,7 @@ That renders the input `UR UF UB UL DF DR DB DL FR FL BR BL UFR URB UBL ULF DRF 
 
 ---
 
-A cube scrambled with `L2D2L2D2B2R2F2L2D2U2F2UF2U'R2UB2U'L2UB2U'LU'L2U'D'B2U'RBUBF'D'` creates this cube (only top, front, and right faces shown):
+A cube scrambled with `L2D2L2D2B2R2F2L2D2U2F2UF2U'R2UB2U'L2UB2U'LU'L2U'D'B2U'RBUBF'D'` creates this visualization (only top, front, and right faces shown):
 
 [![scrambled visualization][4]][4]
 
