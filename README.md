@@ -1,4 +1,4 @@
-# solver2
+# solver 2
 A better cube solver.
 
  - Optimal; usually solves in less than 20 moves
@@ -6,4 +6,4 @@ A better cube solver.
  - Small; the source code is under 10KB
  - Independent; uses no heuristics tables
 
-I found this [here](http://www.stefan-pochmann.info/spocc/other_stuff/tools/solver_thistlethwaite/solver_thistlethwaite_cpp.txt) and modified it. There was no license associated with the original source code.
+Based on Stefan Pochmann's [Thistlethwaite solver](http://www.stefan-pochmann.info/spocc/other_stuff/tools/) with permission.
