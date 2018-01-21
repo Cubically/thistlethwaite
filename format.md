@@ -1,4 +1,12 @@
-The input is a somewhat confusing representation of a Rubik's Cube, so here's a way to visualize it. This is the solved cube:
+## Description of the Input Format
+
+The first 12 values are the edge cubies, and the next eight are the corners. The faces are U(p), D(own), R(ight), L(eft), F(ront), and B(ack). First the cubie that's in the UF position is given, by the color (in UFRDBL notation) that's on top first, and then the other color next. And so on.
+
+`UF UR UB UL DF DR DB DL FR FL BR BL UFR URB UBL ULF DRF DFL DLB DBR` represents the solved cube. Performing `U`, a 90&deg; clockwise turn on the front face, would result in `LF UR UB UL RF DR DB DL FU FD BR BL LFU URB UBL LDF RUF RFD DLB DBR`.
+
+---
+
+Here are some visualizations that may be helpful:
 
 [![solved visualization][1]][1]
 
